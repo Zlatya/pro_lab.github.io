@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CJM — Паллиативный центр</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sage: #7a9e8e;
+    --sage-light: #b5cec5;
+    --sage-pale: #e8f0ed;
+    --cream: #f7f4ef;
+    --sand: #d4c9b8;
+    --charcoal: #2d2d2d;
+    --mid: #6b6b6b;
+    --light: #9a9a9a;
+    --rose: #c4857a;
+    --rose-pale: #f0e2df;
+    --blue: #7a8fa0;
+    --blue-pale: #dde6ed;
+    --gold: #b8953f;
+    --gold-pale: #f0e8d4;
+    --violet: #8a7aaa;
+    --violet-pale: #e8e4f0;
+    --teal: #5a8f8f;
+    --teal-pale: #d8ecec;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--charcoal);
+    color: white;
+    padding: 32px 48px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+  header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+  header h1 span { color: var(--sage-light); font-style: italic; }
+  header p {
+    font-size: 12px;
+    color: #aaa;
+    max-width: 320px;
+    text-align: right;
+    line-height: 1.6;
+  }
+
+  /* LEGEND */
+  .legend {
+    padding: 16px 48px;
+    background: white;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .legend-title { font-size: 11px; color: var(--light); text-transform: uppercase; letter-spacing: 0.1em; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--mid); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* SERVICE GROUPS LEGEND */
+  .groups-bar {
+    padding: 12px 48px;
+    background: var(--sage-pale);
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--sage-light);
+  }
+  .group-badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  /* MAIN TABLE WRAPPER */
+  .cjm-wrapper {
+    overflow-x: auto;
+    padding: 32px 48px 48px;
+  }
+
+  table.cjm {
+    border-collapse: separate;
+    border-spacing: 0;
+    min-width: 1400px;
+    width: 100%;
+  }
+
+  /* STAGE HEADER ROW */
+  .stage-header {
+    background: var(--charcoal);
+    color: white;
+  }
+  .stage-header td {
+    padding: 14px 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    text-align: center;
+    border-right: 1px solid #444;
+    vertical-align: top;
+  }
+  .stage-header td:first-child { border-right: 1px solid #555; }
+  .stage-num {
+    display: block;
+    font-size: 10px;
+    color: var(--sage-light);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* ROW LABEL */
+  .row-label {
+    font-weight: 500;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--mid);
+    padding: 12px 16px;
+    background: #f0ede8;
+    border-right: 2px solid var(--sand);
+    border-bottom: 1px solid #e8e8e8;
+    white-space: nowrap;
+    min-width: 130px;
+    vertical-align: top;
+  }
+
+  /* CONTENT CELL */
+  td.cell {
+    padding: 12px 14px;
+    vertical-align: top;
+    border-right: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
+    background: white;
+    transition: background 0.2s;
+  }
+  td.cell:hover { background: #faf9f7; }
+
+  /* ROW STRIPES */
+  tr.row-actor td.cell { background: #fdfcfb; }
+  tr.row-emotions td.cell { background: #fff8f7; }
+  tr.row-thoughts td.cell { background: #f8fbfa; }
+  tr.row-actions td.cell { background: #f8f9fb; }
+  tr.row-jobs td.cell { background: #fdfaf5; }
+  tr.row-pain td.cell { background: #fff5f5; }
+  tr.row-services td.cell { background: #f5fbf8; }
+  tr.row-metrics td.cell { background: #f9f8fc; }
+  tr.row-opps td.cell { background: #fffef5; }
+
+  /* EMOTION BAR */
+  .emotion-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .emotion-emoji { font-size: 20px; }
+  .emotion-label { font-size: 12px; color: var(--mid); }
+  .emotion-dots {
+    display: flex;
+    gap: 3px;
+    margin-left: auto;
+  }
+  .emotion-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--sand);
+  }
+  .emotion-dot.filled { background: var(--rose); }
+  .emotion-dot.half { background: var(--rose); opacity: 0.4; }
+
+  /* SERVICE TAG */
+  .service-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    margin: 2px 2px;
+    font-weight: 400;
+  }
+  .service-tag .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* BULLET LIST */
+  .bullets { list-style: none; }
+  .bullets li { 
+    padding: 3px 0 3px 14px;
+    position: relative;
+    font-size: 12px;
+    color: var(--charcoal);
+    line-height: 1.45;
+  }
+  .bullets li::before { 
+    content: '—'; 
+    position: absolute; left: 0; 
+    color: var(--light);
+    font-size: 11px;
+  }
+  .bullets li.bold { font-weight: 500; }
+
+  /* QUESTION */
+  .q {
+    display: inline-block;
+    background: var(--gold-pale);
+    color: var(--gold);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 11px;
+    margin: 2px 0;
+  }
+
+  /* PAIN CHIP */
+  .pain {
+    display: inline-block;
+    background: var(--rose-pale);
+    color: var(--rose);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 11px;
+    margin: 2px 2px;
+  }
+
+  /* OPP CHIP */
+  .opp {
+    display: inline-block;
+    background: var(--gold-pale);
+    color: #8a6a20;
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 11px;
+    margin: 2px 2px;
+    border-left: 3px solid var(--gold);
+  }
+
+  /* CHANNEL BADGE */
+  .channel {
+    display: inline-block;
+    padding: 2px 7px;
+    background: var(--blue-pale);
+    color: var(--blue);
+    border-radius: 4px;
+    font-size: 11px;
+    margin: 2px 2px;
+  }
+
+  /* SECTION DIVIDER */
+  .section-row td {
+    background: var(--sage-pale) !important;
+    padding: 6px 16px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sage);
+    font-weight: 500;
+    border-bottom: 1px solid var(--sage-light);
+  }
+
+  /* EMOTION CURVE */
+  .curve-container {
+    padding: 16px 48px 0;
+    background: white;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .curve-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--light);
+    margin-bottom: 12px;
+  }
+  svg.curve { display: block; width: 100%; height: 80px; }
+
+  /* SERVICE GROUPS SECTION */
+  .service-groups {
+    padding: 32px 48px;
+    background: #fafaf8;
+    border-top: 1px solid #e8e8e8;
+  }
+  .sg-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    color: var(--charcoal);
+  }
+  .sg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .sg-card {
+    background: white;
+    border-radius: 8px;
+    padding: 16px 18px;
+    border-top: 3px solid var(--sage);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .sg-card-title {
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sg-card-title .icon { font-size: 16px; }
+  .sg-services { display: flex; flex-wrap: wrap; gap: 5px; }
+  .sg-service {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    background: var(--sage-pale);
+    color: var(--sage);
+  }
+
+  /* ARROW FLOW */
+  .flow-arrow {
+    text-align: center;
+    color: var(--sand);
+    font-size: 18px;
+    padding: 0 4px;
+  }
+
+  td.arrow-cell {
+    background: transparent !important;
+    border: none !important;
+    text-align: center;
+    color: var(--sand);
+    font-size: 16px;
+    width: 20px;
+    padding: 0 !important;
+  }
+
+  .note {
+    font-size: 11px;
+    color: var(--light);
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  .highlight {
+    background: var(--sage-pale);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 11px;
+    color: var(--teal);
+    display: inline-block;
+    margin: 2px 0;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Customer Journey Map<br><span>Паллиативный центр</span></h1>
+  </div>
+  <p>Путь семьи и пациента — от получения диагноза до постоянного сопровождения.<br>Актор: семья + пациент (единая единица принятия решений).</p>
+</header>
+
+<!-- SERVICE GROUPS BAR -->
+<div class="groups-bar">
+  <span style="font-size:11px;color:#7a9e8e;font-weight:500;margin-right:4px;">Группы услуг:</span>
+  <span class="group-badge" style="background:#d8ecec;color:#5a8f8f;">🩺 Медицинское</span>
+  <span class="group-badge" style="background:#e8e4f0;color:#8a7aaa;">🧠 Психоэмоц.</span>
+  <span class="group-badge" style="background:#f0e8d4;color:#b8953f;">⚖️ Юр./Адм.</span>
+  <span class="group-badge" style="background:#f0e2df;color:#c4857a;">🏠 Быт</span>
+  <span class="group-badge" style="background:#dde6ed;color:#7a8fa0;">🚗 Логистика</span>
+  <span class="group-badge" style="background:#e8f0ed;color:#7a9e8e;">🎁 Особые моменты</span>
+</div>
+
+<!-- MAIN CJM TABLE -->
+<div class="cjm-wrapper">
+<table class="cjm">
+
+<!-- STAGE HEADERS -->
+<thead>
+<tr class="stage-header">
+  <td style="width:130px;"></td>
+  <td>
+    <span class="stage-num">01</span>
+    Получение диагноза
+  </td>
+  <td>
+    <span class="stage-num">02</span>
+    Осознание & Поиск
+  </td>
+  <td>
+    <span class="stage-num">03</span>
+    Выбор формата
+  </td>
+  <td>
+    <span class="stage-num">04</span>
+    Подключение к сервису
+  </td>
+  <td>
+    <span class="stage-num">05</span>
+    Активное сопровождение
+  </td>
+  <td>
+    <span class="stage-num">06</span>
+    Кризисные моменты
+  </td>
+  <td>
+    <span class="stage-num">07</span>
+    Завершение & Послеуход
+  </td>
+</tr>
+</thead>
+
+<tbody>
+
+<!-- ACTOR / SITUATION -->
+<tr class="row-actor">
+  <td class="row-label">Ситуация &amp; актор</td>
+  <td class="cell">
+    <ul class="bullets">
+      <li class="bold">Пациент + семья</li>
+      <li>Диагноз поставлен (онкология / нейро / хронич.)</li>
+      <li>Первый шок, дезориентация</li>
+      <li>Часто — только семья принимает решения</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Семья ищет информацию</li>
+      <li>Спрашивают врачей и знакомых</li>
+      <li>Читают интернет, форумы</li>
+      <li>Понимают, что нужна помощь</li>
+    </ul>
+    <div class="note">Ключевые вопросы: <span class="q">Где?</span> <span class="q">Что делать?</span> <span class="q">Сколько стоит?</span> <span class="q">Кому доверять?</span></div>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Выбор: домашний уход vs учреждение</li>
+      <li>Большинство хотят <b>дома</b></li>
+      <li>Оценивают финансовые возможности</li>
+      <li>Ищут доверенный сервис</li>
+    </ul>
+    <div class="note">Тригер доверия: рекомендация врача или знакомого</div>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Первый контакт с центром</li>
+      <li>Оценка, знакомство с командой</li>
+      <li>Подписание договора</li>
+      <li>Передача данных пациента</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Регулярные визиты специалистов</li>
+      <li>Мониторинг состояния</li>
+      <li>Использование сервисов 24/7</li>
+      <li>Семья учится, адаптируется</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Резкое ухудшение состояния</li>
+      <li>Экстренный вызов</li>
+      <li>Госпитализация или смена плана</li>
+      <li>Высокая тревожность семьи</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Уход пациента</li>
+      <li>Поддержка семьи в период горя</li>
+      <li>Юридическое сопровождение</li>
+      <li>Завершение договора</li>
+    </ul>
+  </td>
+</tr>
+
+<!-- THOUGHTS -->
+<tr class="row-thoughts">
+  <td class="row-label">Мысли &amp; вопросы</td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Что это значит для нашей жизни?»</li>
+      <li>«Сколько осталось времени?»</li>
+      <li>«Как справиться?»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Где найти нормальный уход?»</li>
+      <li>«Платно или бесплатно?»</li>
+      <li>«Можно ли доверять чужим людям?»</li>
+      <li>«Что даст реальное облегчение?»</li>
+    </ul>
+    <span class="highlight">Доверие — главный барьер на этом этапе</span>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Хочу чтобы мама была дома»</li>
+      <li>«Смогу ли я это оплатить?»</li>
+      <li>«Кто будет рядом ночью?»</li>
+      <li>«Есть ли гарантии качества?»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Правильно ли я выбрал?»</li>
+      <li>«Поймут ли они особенности мамы?»</li>
+      <li>«Что будет если что-то пойдёт не так?»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Всё ли делается правильно?»</li>
+      <li>«Как ей сейчас?»</li>
+      <li>«Я сам могу так долго держаться?»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Почему так происходит?»</li>
+      <li>«Сделали ли мы всё?»</li>
+      <li>«Кому звонить прямо сейчас?»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Как жить дальше?»</li>
+      <li>«Кто поможет разобраться с документами?»</li>
+      <li>«Хочу поблагодарить команду»</li>
+    </ul>
+  </td>
+</tr>
+
+<!-- EMOTIONS -->
+<tr class="row-emotions">
+  <td class="row-label">Эмоции</td>
+  <td class="cell">
+    <div class="emotion-bar">
+      <span class="emotion-emoji">😱</span>
+      <span class="emotion-label">Шок, страх</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div>
+      </div>
+    </div>
+    <div class="emotion-bar">
+      <span class="emotion-emoji">😢</span>
+      <span class="emotion-label">Горе, растерянность</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+  </td>
+  <td class="cell">
+    <div class="emotion-bar">
+      <span class="emotion-emoji">😰</span>
+      <span class="emotion-label">Тревога, неопределённость</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+    <div class="emotion-bar">
+      <span class="emotion-emoji">🔍</span>
+      <span class="emotion-label">Желание разобраться</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+  </td>
+  <td class="cell">
+    <div class="emotion-bar">
+      <span class="emotion-emoji">⚖️</span>
+      <span class="emotion-label">Сомнение, оценка</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+    <div class="emotion-bar">
+      <span class="emotion-emoji">💛</span>
+      <span class="emotion-label">Надежда</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div><div class="emotion-dot"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+  </td>
+  <td class="cell">
+    <div class="emotion-bar">
+      <span class="emotion-emoji">😌</span>
+      <span class="emotion-label">Первое облегчение</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div><div class="emotion-dot"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+    <div class="emotion-bar">
+      <span class="emotion-emoji">😟</span>
+      <span class="emotion-label">Остаточная тревога</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+  </td>
+  <td class="cell">
+    <div class="emotion-bar">
+      <span class="emotion-emoji">🤝</span>
+      <span class="emotion-label">Доверие, опора</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+    <div class="emotion-bar">
+      <span class="emotion-emoji">😔</span>
+      <span class="emotion-label">Усталость</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+  </td>
+  <td class="cell">
+    <div class="emotion-bar">
+      <span class="emotion-emoji">😱</span>
+      <span class="emotion-label">Паника, беспомощность</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div>
+      </div>
+    </div>
+  </td>
+  <td class="cell">
+    <div class="emotion-bar">
+      <span class="emotion-emoji">😭</span>
+      <span class="emotion-label">Горе</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div>
+      </div>
+    </div>
+    <div class="emotion-bar">
+      <span class="emotion-emoji">🕊️</span>
+      <span class="emotion-label">Благодарность</span>
+      <div class="emotion-dots">
+        <div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot filled"></div><div class="emotion-dot"></div><div class="emotion-dot"></div>
+      </div>
+    </div>
+  </td>
+</tr>
+
+<!-- ACTIONS -->
+<tr class="row-actions">
+  <td class="row-label">Действия</td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Разговор с лечащим врачом</li>
+      <li>Первые поиски в интернете</li>
+      <li>Звонки родственникам</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Запрос рекомендаций у врачей и знакомых</li>
+      <li>Сравнение организаций</li>
+      <li>Изучение сайтов и отзывов</li>
+      <li>Вопросы в соцсетях / форумах</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Звонок в центр, первичная консультация</li>
+      <li>Выезд специалиста для оценки</li>
+      <li>Обсуждение тарифов и состава услуг</li>
+    </ul>
+    <div class="note">Каналы: <span class="channel">Телефон</span> <span class="channel">Сайт</span> <span class="channel">Рекомендация</span></div>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Оформление документов</li>
+      <li>Передача медицинской истории</li>
+      <li>Установка оборудования</li>
+      <li>Знакомство с командой</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Общение с командой через приложение/тел.</li>
+      <li>Контроль графика приёма лекарств</li>
+      <li>Участие в консультациях</li>
+      <li>Использование уборки, сиделки</li>
+      <li>Запрос на транспортировку</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Экстренный звонок 24/7</li>
+      <li>Ожидание быстрого реагирования</li>
+      <li>Принятие решений в стрессе</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>Получение свидетельства / документов</li>
+      <li>Горячая линия поддержки семьи</li>
+      <li>Прощальный звонок / встреча</li>
+    </ul>
+  </td>
+</tr>
+
+<!-- JOBS TO BE DONE -->
+<tr class="row-jobs">
+  <td class="row-label">Jobs-to-be-Done</td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Помогите мне понять, что происходит»</li>
+      <li>«Дайте ощущение контроля»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Помогите выбрать, кому доверять»</li>
+      <li>«Объясните, что реально необходимо»</li>
+      <li>«Покажите что за разумные деньги»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Обеспечьте уход дома без потери качества»</li>
+      <li>«Дайте мне быть рядом с близким»</li>
+      <li>«Возьмите сложное на себя»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Сделайте переход максимально плавным»</li>
+      <li>«Дайте ощущение надёжности»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Обеспечьте комфорт и достоинство пациента»</li>
+      <li>«Дайте мне немного отдышаться»</li>
+      <li>«Следите, я не могу следить всё время»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Будьте рядом в самый трудный момент»</li>
+      <li>«Не дайте мне быть одному»</li>
+    </ul>
+  </td>
+  <td class="cell">
+    <ul class="bullets">
+      <li>«Помогите справиться с горем»</li>
+      <li>«Решите бумажные вопросы»</li>
+    </ul>
+  </td>
+</tr>
+
+<!-- PAIN POINTS -->
+<tr class="row-pain">
+  <td class="row-label">Барьеры &amp; боли</td>
+  <td class="cell">
+    <span class="pain">Нет понятного следующего шага</span>
+    <span class="pain">Информация пугает</span>
+    <span class="pain">Некому спросить</span>
+  </td>
+  <td class="cell">
+    <span class="pain">Непрозрачность цен</span>
+    <span class="pain">Страх мошенничества</span>
+    <span class="pain">Противоречивые отзывы</span>
+    <span class="pain">Не знают о паллиативе</span>
+  </td>
+  <td class="cell">
+    <span class="pain">Страх чужих людей дома</span>
+    <span class="pain">Цена выше ожиданий</span>
+    <span class="pain">Нет гибкого тарифа</span>
+    <span class="pain">Долгое ожидание ответа</span>
+  </td>
+  <td class="cell">
+    <span class="pain">Бюрократия</span>
+    <span class="pain">Сложность передачи истории</span>
+    <span class="pain">Тревога первого визита</span>
+  </td>
+  <td class="cell">
+    <span class="pain">Выгорание семьи</span>
+    <span class="pain">Непонимание назначений</span>
+    <span class="pain">Нет доступной психол. помощи</span>
+    <span class="pain">Сложности с заказом лекарств</span>
+  </td>
+  <td class="cell">
+    <span class="pain">Долгое время реагирования</span>
+    <span class="pain">Нет чёткого протокола</span>
+    <span class="pain">Паника без поддержки</span>
+  </td>
+  <td class="cell">
+    <span class="pain">Одиночество в горе</span>
+    <span class="pain">Непонятно что делать с вещами</span>
+    <span class="pain">Нет послеухода для семьи</span>
+  </td>
+</tr>
+
+<!-- SERVICES USED -->
+<tr class="row-services">
+  <td class="row-label">Услуги центра</td>
+  <td class="cell">
+    <div class="note" style="margin-bottom:6px;">Контакт ещё не произошёл</div>
+    <span class="service-tag" style="background:#dde6ed;color:#7a8fa0;"><span class="dot" style="background:#7a8fa0;"></span>Сайт / соцсети</span>
+    <span class="service-tag" style="background:#dde6ed;color:#7a8fa0;"><span class="dot" style="background:#7a8fa0;"></span>SEO / реклама</span>
+  </td>
+  <td class="cell">
+    <span class="service-tag" style="background:#teal-pale;background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Тел. консультация</span>
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Чат-бот / FAQ</span>
+    <div class="note" style="margin-top:4px;">Образовательный контент о паллиативе</div>
+  </td>
+  <td class="cell">
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Выездная оценка</span>
+    <span class="service-tag" style="background:#e8e4f0;color:#8a7aaa;"><span class="dot" style="background:#8a7aaa;"></span>Юр. консультация ★</span>
+    <span class="service-tag" style="background:#f0e8d4;color:#b8953f;"><span class="dot" style="background:#b8953f;"></span>Подбор тарифа</span>
+  </td>
+  <td class="cell">
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Оборудование квартиры</span>
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Знакомство с командой</span>
+    <span class="service-tag" style="background:#f0e2df;color:#c4857a;"><span class="dot" style="background:#c4857a;"></span>Уборка</span>
+  </td>
+  <td class="cell">
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Сопровождение 24/7</span>
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Мониторинг виталов</span>
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Заказ лекарств</span>
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Подбор оборудования</span>
+    <span class="service-tag" style="background:#e8e4f0;color:#8a7aaa;"><span class="dot" style="background:#8a7aaa;"></span>Психол. поддержка ★</span>
+    <span class="service-tag" style="background:#e8e4f0;color:#8a7aaa;"><span class="dot" style="background:#8a7aaa;"></span>Духовная помощь ★</span>
+    <span class="service-tag" style="background:#e8e4f0;color:#8a7aaa;"><span class="dot" style="background:#8a7aaa;"></span>«Просто поговорить» ★</span>
+    <span class="service-tag" style="background:#f0e2df;color:#c4857a;"><span class="dot" style="background:#c4857a;"></span>Уборка</span>
+    <span class="service-tag" style="background:#f0e2df;color:#c4857a;"><span class="dot" style="background:#c4857a;"></span>Подбор сиделок</span>
+    <span class="service-tag" style="background:#dde6ed;color:#7a8fa0;"><span class="dot" style="background:#7a8fa0;"></span>Транспортировка</span>
+    <span class="service-tag" style="background:#e8f0ed;color:#7a9e8e;"><span class="dot" style="background:#7a9e8e;"></span>Подписка подарков ★</span>
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Отслеж. графика процедур</span>
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Консульт. по состоянию</span>
+  </td>
+  <td class="cell">
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Сопровождение 24/7 (экстренно)</span>
+    <span class="service-tag" style="background:#e8e4f0;color:#8a7aaa;"><span class="dot" style="background:#8a7aaa;"></span>Психол. экстренная</span>
+    <span class="service-tag" style="background:#d8ecec;color:#5a8f8f;"><span class="dot" style="background:#5a8f8f;"></span>Консульт. по состоянию</span>
+  </td>
+  <td class="cell">
+    <span class="service-tag" style="background:#f0e8d4;color:#b8953f;"><span class="dot" style="background:#b8953f;"></span>Юр. консультация</span>
+    <span class="service-tag" style="background:#e8e4f0;color:#8a7aaa;"><span class="dot" style="background:#8a7aaa;"></span>Поддержка семьи в горе</span>
+    <span class="service-tag" style="background:#e8e4f0;color:#8a7aaa;"><span class="dot" style="background:#8a7aaa;"></span>Духовная помощь</span>
+  </td>
+</tr>
+
+<!-- CHANNELS -->
+<tr class="row-metrics">
+  <td class="row-label">Каналы</td>
+  <td class="cell">
+    <span class="channel">Врач</span> <span class="channel">Интернет</span> <span class="channel">Сарафан</span>
+  </td>
+  <td class="cell">
+    <span class="channel">Google</span> <span class="channel">Форумы</span> <span class="channel">Знакомые</span> <span class="channel">Врач</span> <span class="channel">Соцсети</span>
+  </td>
+  <td class="cell">
+    <span class="channel">Телефон</span> <span class="channel">Сайт</span> <span class="channel">Личная встреча</span>
+  </td>
+  <td class="cell">
+    <span class="channel">Телефон</span> <span class="channel">Выезд</span> <span class="channel">Приложение</span>
+  </td>
+  <td class="cell">
+    <span class="channel">Приложение</span> <span class="channel">Телефон 24/7</span> <span class="channel">Визит</span> <span class="channel">Чат</span>
+  </td>
+  <td class="cell">
+    <span class="channel">Телефон 24/7</span> <span class="channel">Выезд</span>
+  </td>
+  <td class="cell">
+    <span class="channel">Телефон</span> <span class="channel">Личная встреча</span>
+  </td>
+</tr>
+
+<!-- OPPORTUNITIES -->
+<tr class="row-opps">
+  <td class="row-label">Возможности</td>
+  <td class="cell">
+    <span class="opp">Партнёрство с онкологами</span>
+    <span class="opp">Буклет в момент диагноза</span>
+    <span class="opp">Горячая линия для семей</span>
+  </td>
+  <td class="cell">
+    <span class="opp">Чёткий ценовой калькулятор</span>
+    <span class="opp">Истории доверия (видео)</span>
+    <span class="opp">Бесплатная первичная консульт.</span>
+    <span class="opp">SEO по симптомам</span>
+  </td>
+  <td class="cell">
+    <span class="opp">Гибкие тарифы / пакеты</span>
+    <span class="opp">Быстрый выезд оценки</span>
+    <span class="opp">Пробный период</span>
+  </td>
+  <td class="cell">
+    <span class="opp">Цифровая карта пациента</span>
+    <span class="opp">Welcome-звонок на 2-й день</span>
+    <span class="opp">Чек-лист для семьи</span>
+  </td>
+  <td class="cell">
+    <span class="opp">Группы поддержки для семей</span>
+    <span class="opp">Дашборд мониторинга</span>
+    <span class="opp">Специализация медсестёр</span>
+    <span class="opp">Деление города на зоны</span>
+    <span class="opp">Еженедельный отчёт семье</span>
+  </td>
+  <td class="cell">
+    <span class="opp">Протокол экстренного реагирования</span>
+    <span class="opp">Гарантия времени приезда</span>
+    <span class="opp">SOS-кнопка в приложении</span>
+  </td>
+  <td class="cell">
+    <span class="opp">Программа поддержки скорби</span>
+    <span class="opp">Юр. сопровождение</span>
+    <span class="opp">Благодарственное письмо команде</span>
+  </td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- SERVICE GROUPS SECTION -->
+<div class="service-groups">
+  <div class="sg-title">Группировка услуг по потребностям клиента</div>
+  <div class="sg-grid">
+    
+    <div class="sg-card" style="border-top-color:#5a8f8f;">
+      <div class="sg-card-title" style="color:#5a8f8f;"><span class="icon">🩺</span> Медицинское сопровождение</div>
+      <div class="sg-services">
+        <span class="sg-service" style="background:#d8ecec;color:#5a8f8f;">Сопровождение 24/7</span>
+        <span class="sg-service" style="background:#d8ecec;color:#5a8f8f;">Мониторинг виталов</span>
+        <span class="sg-service" style="background:#d8ecec;color:#5a8f8f;">Отслеж. графика процедур</span>
+        <span class="sg-service" style="background:#d8ecec;color:#5a8f8f;">Консультация по состоянию</span>
+        <span class="sg-service" style="background:#d8ecec;color:#5a8f8f;">Заказ лекарств</span>
+        <span class="sg-service" style="background:#d8ecec;color:#5a8f8f;">Подбор мед. оборудования</span>
+        <span class="sg-service" style="background:#d8ecec;color:#5a8f8f;">Специализир. медсёстры</span>
+      </div>
+      <div class="note" style="margin-top:8px;">Ядро сервиса — основная причина выбора</div>
+    </div>
+
+    <div class="sg-card" style="border-top-color:#8a7aaa;">
+      <div class="sg-card-title" style="color:#8a7aaa;"><span class="icon">🧠</span> Психоэмоциональная поддержка</div>
+      <div class="sg-services">
+        <span class="sg-service" style="background:#e8e4f0;color:#8a7aaa;">Психологическая поддержка</span>
+        <span class="sg-service" style="background:#e8e4f0;color:#8a7aaa;">Духовная помощь</span>
+        <span class="sg-service" style="background:#e8e4f0;color:#8a7aaa;">«Просто поговорить»</span>
+        <span class="sg-service" style="background:#e8e4f0;color:#8a7aaa;">Группы поддержки семей</span>
+        <span class="sg-service" style="background:#e8e4f0;color:#8a7aaa;">Поддержка в период горя</span>
+      </div>
+      <div class="note" style="margin-top:8px;">Часто недооценивается семьёй, но критично важна</div>
+    </div>
+
+    <div class="sg-card" style="border-top-color:#c4857a;">
+      <div class="sg-card-title" style="color:#c4857a;"><span class="icon">🏠</span> Бытовая помощь</div>
+      <div class="sg-services">
+        <span class="sg-service" style="background:#f0e2df;color:#c4857a;">Уборка</span>
+        <span class="sg-service" style="background:#f0e2df;color:#c4857a;">Подбор сиделок</span>
+        <span class="sg-service" style="background:#f0e2df;color:#c4857a;">Оборудование квартиры</span>
+        <span class="sg-service" style="background:#f0e2df;color:#c4857a;">Помощь в схеме размещения</span>
+      </div>
+      <div class="note" style="margin-top:8px;">Снижает нагрузку на семью — важный «буфер»</div>
+    </div>
+
+    <div class="sg-card" style="border-top-color:#7a8fa0;">
+      <div class="sg-card-title" style="color:#7a8fa0;"><span class="icon">🚗</span> Логистика</div>
+      <div class="sg-services">
+        <span class="sg-service" style="background:#dde6ed;color:#7a8fa0;">Транспортировка</span>
+        <span class="sg-service" style="background:#dde6ed;color:#7a8fa0;">Деление города на зоны</span>
+        <span class="sg-service" style="background:#dde6ed;color:#7a8fa0;">Доставка лекарств / оборуд.</span>
+      </div>
+      <div class="note" style="margin-top:8px;">Часто блокирующий фактор для использования сервиса</div>
+    </div>
+
+    <div class="sg-card" style="border-top-color:#b8953f;">
+      <div class="sg-card-title" style="color:#b8953f;"><span class="icon">⚖️</span> Юридическая & административная</div>
+      <div class="sg-services">
+        <span class="sg-service" style="background:#f0e8d4;color:#b8953f;">Юридическая консультация</span>
+        <span class="sg-service" style="background:#f0e8d4;color:#b8953f;">Оформление документов</span>
+        <span class="sg-service" style="background:#f0e8d4;color:#b8953f;">Помощь с льготами / ОМС</span>
+      </div>
+      <div class="note" style="margin-top:8px;">Снимает тяжёлую административную нагрузку</div>
+    </div>
+
+    <div class="sg-card" style="border-top-color:#7a9e8e;">
+      <div class="sg-card-title" style="color:#7a9e8e;"><span class="icon">🎁</span> Особые моменты & качество жизни</div>
+      <div class="sg-services">
+        <span class="sg-service" style="background:#e8f0ed;color:#7a9e8e;">Подписка подарков от семьи</span>
+        <span class="sg-service" style="background:#e8f0ed;color:#7a9e8e;">Специалисты доп. профиля</span>
+        <span class="sg-service" style="background:#e8f0ed;color:#7a9e8e;">Исполнение желаний пациента</span>
+      </div>
+      <div class="note" style="margin-top:8px;">Дифференцирующий фактор — уникальность сервиса</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- INSIGHTS -->
+<div style="padding: 32px 48px; background: var(--charcoal); color: white;">
+  <div style="font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; margin-bottom: 20px; color: var(--sage-light);">Ключевые инсайты</div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+    
+    <div style="background: rgba(255,255,255,0.07); border-radius: 8px; padding: 16px; border-left: 3px solid var(--sage-light);">
+      <div style="font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--sage-light);">💡 Доверие — главный барьер входа</div>
+      <div style="font-size: 12px; color: #bbb; line-height: 1.6;">На этапе поиска семья не знает кому верить. Ключевые триггеры: рекомендация врача или знакомого, прозрачные цены, первый бесплатный визит.</div>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.07); border-radius: 8px; padding: 16px; border-left: 3px solid #c4857a;">
+      <div style="font-size: 13px; font-weight: 500; margin-bottom: 8px; color: #e8a89f;">💡 Семья = второй пациент</div>
+      <div style="font-size: 12px; color: #bbb; line-height: 1.6;">Выгорание семьи — системная проблема. Психологическая поддержка, группы, уборка — это помощь не пациенту, а опекунам, которые держат всю систему.</div>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.07); border-radius: 8px; padding: 16px; border-left: 3px solid #b8953f;">
+      <div style="font-size: 13px; font-weight: 500; margin-bottom: 8px; color: #d4b566;">💡 Хочу дома — не хочу платить дважды</div>
+      <div style="font-size: 12px; color: #bbb; line-height: 1.6;">Желание держать пациента дома — сильное. Но ценовой барьер реален. Нужна гибкая тарификация: базовый пакет + надстройки по мере необходимости.</div>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.07); border-radius: 8px; padding: 16px; border-left: 3px solid #7a8fa0;">
+      <div style="font-size: 13px; font-weight: 500; margin-bottom: 8px; color: #a0b8cc;">💡 24/7 — не опция, а гигиена</div>
+      <div style="font-size: 12px; color: #bbb; line-height: 1.6;">Семья не может «ждать до утра». Скорость реагирования и доступность в кризис — это основное конкурентное преимущество паллиативного сервиса.</div>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.07); border-radius: 8px; padding: 16px; border-left: 3px solid #8a7aaa;">
+      <div style="font-size: 13px; font-weight: 500; margin-bottom: 8px; color: #b8aacf;">💡 Нематериальные услуги недооценены</div>
+      <div style="font-size: 12px; color: #bbb; line-height: 1.6;">«Просто поговорить», духовная помощь, подарки от семьи — клиенты не ищут это целенаправленно, но высоко ценят после. Продавать как часть пакета.</div>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.07); border-radius: 8px; padding: 16px; border-left: 3px solid #7a9e8e;">
+      <div style="font-size: 13px; font-weight: 500; margin-bottom: 8px; color: var(--sage-light);">💡 Послеуход — незанятая ниша</div>
+      <div style="font-size: 12px; color: #bbb; line-height: 1.6;">После ухода пациента семья остаётся одна. Программа поддержки в период горя + юридическое сопровождение = дифференцирующий фактор и источник рекомендаций.</div>
+    </div>
+
+  </div>
+</div>
+
+<div style="padding: 14px 48px; background: #222; color: #666; font-size: 11px; display: flex; justify-content: space-between;">
+  <span>CJM v1.0 — Паллиативный центр</span>
+  <span>★ = услуга, выявленная как особо значимая на данном этапе</span>
+</div>
+
+</body>
+</html>
